@@ -1,0 +1,10 @@
+opencv-python==4.5.5.64
+requests==2.26.0
+Pillow==8.3.2
+moviepy==1.0.3
+sounddevice==0.4.4
+numpy==1.24.2
+faster-whisper==1.0.0
+soundfile==0.10.3.post1
+transformers==4.30.0
+
