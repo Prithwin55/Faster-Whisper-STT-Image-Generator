@@ -1,3 +1,60 @@
+# import sounddevice as sd
+# import numpy as np
+# from faster_whisper import WhisperModel
+# import queue
+# import threading
+# from transformers import pipeline
+
+# # Configuration
+# SAMPLE_RATE = 16000
+# BLOCK_DURATION = 2  # seconds
+# MODEL_SIZE = "base"
+
+# # Load models
+# model = WhisperModel(MODEL_SIZE, device="cpu")  # Use CPU only
+# sentiment_analyzer = pipeline("sentiment-analysis")
+
+# # Audio stream queue
+# audio_queue = queue.Queue()
+
+# # Audio callback function
+# def audio_callback(indata, frames, time, status):
+#     if status:
+#         print("Status:", status)
+#     audio_queue.put(indata.copy())
+
+# # Transcription + sentiment loop
+# def transcription_loop():
+#     print("Listening and transcribing...\n")
+#     while True:
+#         audio_block = audio_queue.get()
+#         if audio_block is None:
+#             break
+#         mono_audio = audio_block.mean(axis=1)
+#         segments, _ = model.transcribe(mono_audio, language="en", beam_size=5)
+#         for segment in segments:
+#             text = segment.text.strip()
+#             if not text:
+#                 continue
+#             print(f"\n🗣️  Transcribed: {text}")
+#             try:
+#                 sentiment = sentiment_analyzer(text)[0]
+#                 label = sentiment["label"]
+#                 score = sentiment["score"]
+#                 print(f"🧠  Sentiment: {label} (Confidence: {score:.2f})")
+#             except Exception as e:
+#                 print("Sentiment analysis error:", str(e))
+
+# # Run the audio stream
+# try:
+#     with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="float32",
+#                         callback=audio_callback, blocksize=int(SAMPLE_RATE * BLOCK_DURATION)):
+#         thread = threading.Thread(target=transcription_loop)
+#         thread.start()
+#         thread.join()
+# except KeyboardInterrupt:
+#     print("\nStopped by user.")
+
 
 import sounddevice as sd
 import numpy as np
